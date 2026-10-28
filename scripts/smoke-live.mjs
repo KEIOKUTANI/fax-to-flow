@@ -4,7 +4,7 @@
 // 2) checks the configured models answer, 3) runs sample2 (the messy FAX) end to end.
 import fs from 'node:fs';
 import path from 'node:path';
-import { config, chatCompletion, stripThinking } from '../lib/llm.mjs';
+import { config, chatCompletion, resolveVisionModel, stripThinking } from '../lib/llm.mjs';
 import { transcribeFax, runAgent } from '../lib/agent.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -23,6 +23,7 @@ try {
   const vision = data.filter((m) => /image|vision|vl/i.test(`${m.id} ${m.architecture?.modality || ''}`));
   log(true, `Catalogue: ${data.length} models`,
     `Nemotron/NVIDIA: ${nvidia.map((m) => m.id).join(', ') || 'none'}\n      Vision-capable: ${vision.map((m) => m.id).join(', ') || 'none'}`);
+  await resolveVisionModel();
   for (const id of [config.llmModel, config.visionModel]) {
     const found = data.some((m) => m.id === id);
     if (!found) failed = true;

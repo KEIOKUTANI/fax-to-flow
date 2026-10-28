@@ -33,7 +33,7 @@ The clerk reviews, fixes anything flagged, and approves. The order goes to the l
 ## How we used NVIDIA Nemotron and Nebius Token Factory
 - **Nemotron is the agent brain** (`nvidia/nemotron-3-super-120b-a12b` on Token Factory). It runs an OpenAI-style tool-calling loop over six tools: `lookup_customer`, `search_products`, `check_stock`, `get_usual_order`, `propose_substitute` and `finalize_order`. It decides every SKU, every substitute, what counts as ambiguous and the due date, and writes the keigo reply.
 - **Token Factory** serves every model call through its OpenAI-compatible endpoint. The app uses no SDK, only `fetch`.
-- A vision model on Token Factory does transcription only and makes no decisions. *(Update this line after the live check: name the exact vision model used.)*
+- A vision model on Token Factory does transcription only and makes no decisions. The app picks it from the Token Factory catalogue at runtime and prefers an NVIDIA VL model. *(After the live check, name the exact model used here.)*
 - Robustness: if tool calling is rejected, the agent switches to a JSON-plan protocol with the same tools, so Nemotron stays in charge.
 
 ## Design choices
@@ -44,6 +44,15 @@ The clerk reviews, fixes anything flagged, and approves. The order goes to the l
 ## Challenges
 - Japanese trade shorthand and full-width/half-width variants (`M10-30` vs `M10×30`), which we handled with a domain-specific matcher the agent calls as a tool.
 - Getting the model to stop and ask instead of guessing, which we enforced with confidence scores and approval gating in the UI.
+
+## Accomplishments that we're proud of
+- The agent says "I'm not sure" instead of guessing: ambiguous items and crossed-out numbers become checks for a person, which is what makes it safe to use on real orders.
+- "The usual, doubled this time" works end to end: history lookup, doubling, a stock shortfall, and a substitute for the missing part, all in one sheet.
+- It fits the existing workflow. The customer keeps their FAX machine and gets a polite reply FAX back.
+
+## What we learned
+- The hard part of FAX orders isn't reading characters, it's knowing what the customer meant. Splitting the work (vision transcribes, Nemotron decides with tools) made both parts easier to test.
+- Tool calling plus server-side checks (prices from the master, stock re-checked) gave far more reliable results than asking one model to do everything.
 
 ## What's next
 A pilot with a wholesaler through a local chamber of commerce. Plugging into common Japanese ordering systems via CSV, and receiving faxes automatically from e-fax inboxes.

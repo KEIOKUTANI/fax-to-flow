@@ -44,7 +44,7 @@ All model calls go to **Nebius Token Factory** through its OpenAI-compatible API
 
 | Step | Model (env var) | Role |
 |---|---|---|
-| 1. Transcription | `VISION_MODEL`, default `Qwen/Qwen2-VL-72B-Instruct` | Converts the FAX image (base64 data URL in an `image_url` content part) into raw JSON exactly as written. **It makes no decisions.** We use it because Token Factory's documented vision model is Qwen2-VL; we could not confirm a Nemotron VL model there. |
+| 1. Transcription | `VISION_MODEL`; if empty, picked from the Token Factory catalogue on first use, preferring an NVIDIA VL model (e.g. Nemotron VL), else any VL model | Converts the FAX image (base64 data URL in an `image_url` content part) into raw JSON exactly as written. **It makes no decisions.** |
 | 2+. **Agent brain** | `LLM_MODEL`, default **`nvidia/nemotron-3-super-120b-a12b`** | **Nemotron does all the reasoning.** It identifies the customer, decides which lines are ambiguous, chooses SKUs, interprets 「いつもの・倍」, decides on substitutes and line splits, infers the due date (金曜 → the coming Friday), and writes the keigo reply plus the English gloss. |
 
 **Agent loop (`lib/agent.mjs`).** Nemotron runs a standard OpenAI tool-calling loop (`tools` + `tool_choice: "auto"`, up to 16 turns). The tools are defined as JSON schemas in `lib/tools.mjs`:
@@ -92,7 +92,7 @@ Checks: `npm test` (matcher and fixture validation, no key needed). `npm run smo
 | `NEBIUS_API_KEY` | (none) | Enables live mode |
 | `LLM_BASE_URL` | `https://api.tokenfactory.nebius.com/v1` | Any OpenAI-compatible endpoint |
 | `LLM_MODEL` | `nvidia/nemotron-3-super-120b-a12b` | Agent brain |
-| `VISION_MODEL` | `Qwen/Qwen2-VL-72B-Instruct` | Transcription only |
+| `VISION_MODEL` | empty = auto-pick (NVIDIA VL preferred) | Transcription only |
 | `PORT` | `3000` | |
 | `LLM_TIMEOUT_MS` / `LLM_MAX_TOKENS` | `120000` / `8192` | Per request |
 | `MANUAL_SECONDS_PER_SHEET` | `300` | Baseline for the time-saved counter |

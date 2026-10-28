@@ -209,7 +209,7 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'GET' && p === '/healthz') return send(res, 200, 'ok');
     if (req.method === 'GET' && p === '/api/config') {
       return send(res, 200, {
-        mode: isLive() ? 'live' : 'demo', llm_model: config.llmModel, vision_model: config.visionModel,
+        mode: isLive() ? 'live' : 'demo', llm_model: config.llmModel, vision_model: config.visionModel || (isLive() ? 'auto (picked on first FAX)' : 'Qwen/Qwen2-VL-72B-Instruct'),
         base_url: new URL(config.baseUrl).host, manual_seconds_per_sheet: MANUAL_SECONDS_PER_SHEET,
       });
     }
