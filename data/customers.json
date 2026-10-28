@@ -1,0 +1,18 @@
+[
+  {"id": "C001", "company": "東大阪精工株式会社", "company_en": "Higashi-Osaka Seiko Co., Ltd.", "type": "町工場 (machine shop)", "fax": "06-6781-2345", "contact": "田中", "contact_honorific": "田中様", "department": "購買課",
+   "usual_items": [{"sku": "YB-0830", "qty": 3}, {"sku": "HN-08", "qty": 2}, {"sku": "WF-08", "qty": 2}], "last_order": "2026-10-01"},
+  {"id": "C002", "company": "有限会社 森田工務店", "company_en": "Morita Komuten (builder)", "type": "工務店 (builder)", "fax": "072-965-4411", "contact": "森田", "contact_honorific": "森田様", "department": "",
+   "usual_items": [{"sku": "CS-3832", "qty": 3}, {"sku": "AN-PL6", "qty": 2}, {"sku": "AN-1050", "qty": 1}], "last_order": "2026-09-24"},
+  {"id": "C003", "company": "株式会社 河内製作所", "company_en": "Kawachi Seisakusho Co., Ltd.", "type": "町工場 (fabrication)", "fax": "06-6728-9902", "contact": "山本", "contact_honorific": "山本様", "department": "製造部",
+   "usual_items": [{"sku": "YB-1030", "qty": 4}, {"sku": "SB-1040", "qty": 2}, {"sku": "WF-10", "qty": 4}], "last_order": "2026-09-30"},
+  {"id": "C004", "company": "生駒設備工業株式会社", "company_en": "Ikoma Setsubi Kogyo (plumbing/HVAC)", "type": "設備業 (plumbing & HVAC)", "fax": "0743-75-3120", "contact": "中村", "contact_honorific": "中村様", "department": "工事部",
+   "usual_items": [{"sku": "TR-10", "qty": 20}, {"sku": "UB-25A", "qty": 3}, {"sku": "AN-0860", "qty": 1}], "last_order": "2026-10-08"},
+  {"id": "C005", "company": "松原鉄工所", "company_en": "Matsubara Iron Works", "type": "鉄工所 (steel works)", "fax": "072-332-8871", "contact": "松原", "contact_honorific": "松原様", "department": "",
+   "usual_items": [{"sku": "YB-1250", "qty": 2}, {"sku": "HN-12", "qty": 2}, {"sku": "WF-12", "qty": 2}], "last_order": "2026-09-18"},
+  {"id": "C006", "company": "八尾建装株式会社", "company_en": "Yao Kenso Co., Ltd. (interior fit-out)", "type": "内装業 (interior)", "fax": "072-924-5566", "contact": "吉田", "contact_honorific": "吉田様", "department": "資材課",
+   "usual_items": [{"sku": "TS-3516", "qty": 2}, {"sku": "DS-4019", "qty": 1}, {"sku": "AN-PL6", "qty": 4}], "last_order": "2026-10-06"},
+  {"id": "C007", "company": "株式会社 布施プレス", "company_en": "Fuse Press Co., Ltd.", "type": "プレス加工 (metal stamping)", "fax": "06-6782-1100", "contact": "井上", "contact_honorific": "井上様", "department": "生産管理課",
+   "usual_items": [{"sku": "CB-0620", "qty": 2}, {"sku": "CB-0825", "qty": 1}, {"sku": "WS-08", "qty": 1}], "last_order": "2026-10-03"},
+  {"id": "C008", "company": "大東電設株式会社", "company_en": "Daito Densetsu (electrical contractor)", "type": "電気工事 (electrical)", "fax": "072-871-3300", "contact": "小林", "contact_honorific": "小林様", "department": "",
+   "usual_items": [{"sku": "TR-10", "qty": 10}, {"sku": "AN-0860", "qty": 1}, {"sku": "TL-SDS105", "qty": 2}], "last_order": "2026-09-27"}
+]

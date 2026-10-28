@@ -1,0 +1,19 @@
+{
+  "name": "fax-to-flow",
+  "version": "1.0.0",
+  "description": "FAX orders in, approved order data out — an NVIDIA Nemotron agent on Nebius Token Factory for Japanese SME wholesalers.",
+  "type": "module",
+  "main": "server.mjs",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --env-file=.env server.mjs",
+    "test": "node scripts/check.mjs",
+    "samples": "python3 scripts/make_samples.py",
+    "smoke": "node --env-file=.env scripts/smoke-live.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "dependencies": {}
+}

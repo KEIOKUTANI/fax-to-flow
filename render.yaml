@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: fax-to-flow
+    runtime: node
+    plan: free
+    buildCommand: "echo 'no dependencies to install'"
+    startCommand: node server.mjs
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NEBIUS_API_KEY
+        sync: false
+      - key: LLM_BASE_URL
+        value: https://api.tokenfactory.nebius.com/v1
+      - key: LLM_MODEL
+        value: nvidia/nemotron-3-super-120b-a12b
+      - key: VISION_MODEL
+        value: Qwen/Qwen2-VL-72B-Instruct

@@ -1,0 +1,39 @@
+{
+  "sample": "sample3_usual",
+  "title": "Free-text note — \"いつもの分、今回は倍で\" — 森田工務店",
+  "note": "DEMO FIXTURE. Hand-authored example of what the vision step and the Nemotron agent produce for this sample. Tool calls are executed for real against the product master during playback; the transcription, the agent's choices and the reply text are pre-written.",
+  "vision": {
+    "fax_header": "2026/10/15 18:31 FROM: 072 965 4411 MORITA KOMUTEN P.001/001",
+    "sender": { "company": "森田工務店", "contact": "森田", "fax": "072-965-4411" },
+    "date": "10/15",
+    "lines": [
+      { "line_no": 1, "item": "コーススレッド", "spec": "4.2×51", "qty": "2箱", "qty_crossed_out": "", "due": "", "legibility": "clear" }
+    ],
+    "free_text": "いつもの分、今回は倍で。現場が2件かさなってます。あと コーススレッド 4.2×51 2箱 追加。納品は来週月曜 (10/19) でお願いします。よろしく！",
+    "unreadable": []
+  },
+  "script": [
+    { "tool": "lookup_customer", "args": { "fax_or_name": "072 965 4411" } },
+    { "thought": "\"いつもの分、今回は倍で\" = the usual order, doubled. Fetch Morita Komuten's usual items.", "tool": "get_usual_order", "args": { "customer_id": "C002" } },
+    { "tool": "check_stock", "args": { "sku": "CS-3832", "qty": 6 } },
+    { "tool": "check_stock", "args": { "sku": "AN-PL6", "qty": 4 } },
+    { "tool": "check_stock", "args": { "sku": "AN-1050", "qty": 2 } },
+    { "thought": "Only 1 box of AN-1050 left — confirm 1, find a substitute for the other.", "tool": "propose_substitute", "args": { "sku": "AN-1050", "qty": 1 } },
+    { "tool": "search_products", "args": { "query": "コーススレッド 4.2×51" } },
+    { "tool": "check_stock", "args": { "sku": "CS-4251", "qty": 2 } }
+  ],
+  "final": {
+    "customer_id": "C002",
+    "due_date": "2026-10-19",
+    "lines": [
+      { "line_no": 1, "raw_text": "いつもの分 ×2: コーススレッド 3.8×32 (3→6)", "sku": "CS-3832", "qty": 6, "status": "confirmed", "confidence": 0.9, "note_ja": "いつもの3箱×2", "note_en": "Usual 3 boxes x2" },
+      { "line_no": 2, "raw_text": "いつもの分 ×2: 樹脂プラグ 6mm (2→4)", "sku": "AN-PL6", "qty": 4, "status": "confirmed", "confidence": 0.9, "note_ja": "いつもの2袋×2", "note_en": "Usual 2 bags x2" },
+      { "line_no": 3, "raw_text": "いつもの分 ×2: オールアンカー M10×50 (1→2)", "sku": "AN-1050", "qty": 1, "status": "confirmed", "confidence": 0.88, "note_ja": "2箱中、在庫1箱", "note_en": "1 of 2 boxes in stock" },
+      { "line_no": 4, "raw_text": "いつもの分 ×2: オールアンカー M10×50 不足分", "sku": "AN-1070", "qty": 1, "status": "substitute", "confidence": 0.75, "original_sku": "AN-1050", "note_ja": "不足1箱をM10×70で提案", "note_en": "Shortfall of 1 box: proposing M10x70" },
+      { "line_no": 5, "raw_text": "コーススレッド 4.2×51 2箱 追加", "sku": "CS-4251", "qty": 2, "status": "confirmed", "confidence": 0.96, "note_ja": "追加分", "note_en": "Additional item" }
+    ],
+    "reply_ja": "いつも大変お世話になっております。大和金物でございます。\n本日はご注文をいただき、誠にありがとうございます。「いつもの分を倍で」とのこと、追加のコーススレッドと合わせて下記の通り承りました。\n\n【代替品のご相談】\n「オールアンカー M10×50」は2箱のご注文に対し、現在1箱のみの在庫でございます。不足の1箱につきましては「オールアンカー M10×70」でご用意できますが、よろしいでしょうか。\n\n納品は10月19日(月)にお届けいたします。現場が重なりお忙しいところ恐縮ですが、ご確認のほど何卒よろしくお願い申し上げます。",
+    "reply_en": "Thank you as always for your business. This is Yamato Kanamono.\nThank you very much for today's order. As requested — \"the usual, doubled this time\" — together with the additional coarse-thread screws, we have accepted the order as listed below.\n\n[Substitute proposal]\nFor the All-Anchor M10x50, you need 2 boxes but we currently have only 1 in stock. We can supply the missing box as All-Anchor M10x70 — would that be acceptable?\n\nWe will deliver on Monday, October 19. We know you are busy with two sites at once; thank you for checking.",
+    "summary_en": "Morita Komuten asked for 'the usual, doubled' plus 2 boxes of 4.2x51 screws: usual items expanded from history; 1 anchor box short, M10x70 proposed."
+  }
+}

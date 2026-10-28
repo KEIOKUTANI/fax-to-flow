@@ -1,0 +1,42 @@
+{
+  "sample": "sample1_clean",
+  "title": "Clean order sheet — 東大阪精工",
+  "note": "DEMO FIXTURE. Hand-authored example of what the vision step and the Nemotron agent produce for this sample. Tool calls are executed for real against the product master during playback; the transcription, the agent's choices and the reply text are pre-written.",
+  "vision": {
+    "fax_header": "2026/10/15 08:12 FROM: 06 6781 2345 HIGASHIOSAKA SEIKO P.001/001",
+    "sender": { "company": "東大阪精工株式会社 購買課", "contact": "田中", "fax": "06-6781-2345" },
+    "date": "10/15",
+    "lines": [
+      { "line_no": 1, "item": "六角ボルト", "spec": "M8×30", "qty": "3箱", "qty_crossed_out": "", "due": "10/17", "legibility": "clear" },
+      { "line_no": 2, "item": "六角ナット", "spec": "M8", "qty": "2箱", "qty_crossed_out": "", "due": "10/17", "legibility": "clear" },
+      { "line_no": 3, "item": "平ワッシャー", "spec": "M8", "qty": "2箱", "qty_crossed_out": "", "due": "10/17", "legibility": "clear" },
+      { "line_no": 4, "item": "キャップボルト", "spec": "M6×20", "qty": "1箱", "qty_crossed_out": "", "due": "10/17", "legibility": "clear" }
+    ],
+    "free_text": "いつもお世話になっております。午前中着でお願いします。",
+    "unreadable": []
+  },
+  "script": [
+    { "thought": "Header fax number 06 6781 2345 — identify the customer first.", "tool": "lookup_customer", "args": { "fax_or_name": "06 6781 2345" } },
+    { "tool": "search_products", "args": { "query": "六角ボルト M8×30" } },
+    { "tool": "search_products", "args": { "query": "六角ナット M8" } },
+    { "tool": "search_products", "args": { "query": "平ワッシャー M8" } },
+    { "thought": "キャップボルト is trade shorthand for a socket head cap screw.", "tool": "search_products", "args": { "query": "キャップボルト M6×20" } },
+    { "tool": "check_stock", "args": { "sku": "YB-0830", "qty": 3 } },
+    { "tool": "check_stock", "args": { "sku": "HN-08", "qty": 2 } },
+    { "tool": "check_stock", "args": { "sku": "WF-08", "qty": 2 } },
+    { "tool": "check_stock", "args": { "sku": "CB-0620", "qty": 1 } }
+  ],
+  "final": {
+    "customer_id": "C001",
+    "due_date": "2026-10-17",
+    "lines": [
+      { "line_no": 1, "raw_text": "六角ボルト M8×30 3箱", "sku": "YB-0830", "qty": 3, "status": "confirmed", "confidence": 0.98, "note_ja": "", "note_en": "" },
+      { "line_no": 2, "raw_text": "六角ナット M8 2箱", "sku": "HN-08", "qty": 2, "status": "confirmed", "confidence": 0.97, "note_ja": "", "note_en": "" },
+      { "line_no": 3, "raw_text": "平ワッシャー M8 2箱", "sku": "WF-08", "qty": 2, "status": "confirmed", "confidence": 0.97, "note_ja": "", "note_en": "" },
+      { "line_no": 4, "raw_text": "キャップボルト M6×20 1箱", "sku": "CB-0620", "qty": 1, "status": "confirmed", "confidence": 0.93, "note_ja": "キャップボルト＝六角穴付きボルト", "note_en": "\"Cap bolt\" = socket head cap screw" }
+    ],
+    "reply_ja": "いつも大変お世話になっております。大和金物でございます。\n10月15日付のご注文、誠にありがとうございます。下記の通り承りました。\n\n全品在庫がございますので、ご指定の10月17日(土)午前中に納品いたします。\n今後とも何卒よろしくお願い申し上げます。",
+    "reply_en": "Thank you as always for your business. This is Yamato Kanamono.\nThank you very much for your order dated October 15. We have accepted it as listed below.\n\nAll items are in stock, so we will deliver on the morning of Saturday, October 17, as requested.\nWe look forward to continuing to serve you.",
+    "summary_en": "Routine order from Higashi-Osaka Seiko: 4 lines, all matched and in stock."
+  }
+}

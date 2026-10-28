@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAX to Flow</title>
+  <meta name="description" content="FAX orders in, approved order data out. A Nemotron agent on Nebius Token Factory reads order FAXes, matches the product master, checks stock and drafts the keigo reply.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231d2b36'/%3E%3Cpath d='M8 9h12v4H8zM8 15h16v2H8zM8 19h16v2H8zM8 23h10v2H8z' fill='%23f2b84b'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">FAX<span>→</span></div>
+      <div>
+        <div class="name">FAX to Flow</div>
+        <div class="tag">FAX注文を、そのまま受注データへ <small>FAX orders in, order data out</small></div>
+      </div>
+    </div>
+    <div class="models" id="models"></div>
+    <div class="saved" id="saved" title="Estimated time saved vs. manual re-typing">
+      <div class="saved-num" id="savedNum">0:00</div>
+      <div class="saved-lbl">削減時間 <small>time saved (est.)</small></div>
+    </div>
+  </header>
+
+  <div class="banner" id="demoBanner" hidden>
+    <b>Demo mode</b> — sample results, no model calls. 事前に用意したサンプル結果を再生しています。Set <code>NEBIUS_API_KEY</code> to run the live Nemotron agent.
+  </div>
+
+  <main class="grid">
+    <section class="card fax">
+      <div class="card-h">
+        <h2>受信FAX <small>Incoming FAX</small></h2>
+        <span class="company">大和金物株式会社 受注係 <small>Yamato Kanamono order desk</small></span>
+      </div>
+      <div class="samples" id="samples"></div>
+      <label class="drop" id="drop">
+        <input type="file" id="file" accept="image/png,image/jpeg,image/webp" hidden>
+        <span>画像をドロップ / クリックしてアップロード <small>Drop or click to upload a FAX image</small></span>
+      </label>
+      <div class="preview" id="preview"><div class="empty">サンプルを選んでください<br><small>Pick a sample FAX above</small></div></div>
+      <button class="primary" id="run" disabled>読み取り開始 <small>Read &amp; process</small></button>
+    </section>
+
+    <section class="card steps">
+      <div class="card-h">
+        <h2>エージェントの動き <small>Agent steps</small></h2>
+        <span class="timer" id="timer"></span>
+      </div>
+      <ol class="feed" id="feed"><li class="idle">待機中 <small>Waiting for a FAX…</small></li></ol>
+    </section>
+
+    <section class="card result" id="result" hidden>
+      <div class="card-h">
+        <h2>受注明細 <small>Order draft</small></h2>
+        <div class="cust" id="cust"></div>
+      </div>
+      <div class="summary" id="summary"></div>
+      <div class="table-wrap">
+        <table class="lines">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>FAX記載 <small>as written</small></th>
+              <th>商品 <small>matched product</small></th>
+              <th class="num">数量 <small>qty</small></th>
+              <th class="num">金額 <small>amount</small></th>
+              <th>確度 <small>conf.</small></th>
+              <th>状態 <small>status</small></th>
+            </tr>
+          </thead>
+          <tbody id="lines"></tbody>
+          <tfoot><tr><td colspan="4" class="num">合計 (税抜) <small>subtotal</small></td><td class="num" id="total"></td><td colspan="2"></td></tr></tfoot>
+        </table>
+      </div>
+
+      <div class="reply">
+        <div>
+          <h3>返信FAX 下書き <small>Reply draft (Japanese, editable)</small></h3>
+          <textarea id="replyJa" rows="15"></textarea>
+        </div>
+        <div>
+          <h3>English gloss <small>for judges · not sent</small></h3>
+          <div class="gloss" id="replyEn"></div>
+        </div>
+      </div>
+
+      <div class="approve-row">
+        <div class="hint" id="approveHint"></div>
+        <button class="primary big" id="approve" disabled>承認して受注登録 <small>Approve → ledger + reply FAX</small></button>
+      </div>
+      <div class="done" id="done" hidden></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>Agent: NVIDIA Nemotron on Nebius Token Factory · Vision transcription: Token Factory VLM</span>
+    <a href="/api/ledger.csv">受注台帳CSV <small>Download ledger</small></a>
+  </footer>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

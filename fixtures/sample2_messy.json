@@ -1,0 +1,43 @@
+{
+  "sample": "sample2_messy",
+  "title": "Messy sheet — abbreviations, crossed-out qty, out of stock, ambiguous item — 河内製作所",
+  "note": "DEMO FIXTURE. Hand-authored example of what the vision step and the Nemotron agent produce for this sample. Tool calls are executed for real against the product master during playback; the transcription, the agent's choices and the reply text are pre-written.",
+  "vision": {
+    "fax_header": "2026/10/15 07:48 FROM: 06 6728 9902 KAWACHI SEISAKUSHO P.001/001",
+    "sender": { "company": "株式会社 河内製作所 製造部", "contact": "山本", "fax": "06-6728-9902" },
+    "date": "10/15",
+    "lines": [
+      { "line_no": 1, "item": "六ボル", "spec": "M10-30", "qty": "5", "qty_crossed_out": "", "due": "金曜", "legibility": "clear" },
+      { "line_no": 2, "item": "SUS六角ボルト", "spec": "M10×40", "qty": "3箱", "qty_crossed_out": "", "due": "金曜", "legibility": "clear" },
+      { "line_no": 3, "item": "ワッシャー", "spec": "M10", "qty": "6", "qty_crossed_out": "4", "due": "金曜", "legibility": "unsure" },
+      { "line_no": 4, "item": "ステンナット", "spec": "M10", "qty": "2", "qty_crossed_out": "", "due": "金曜", "legibility": "clear" }
+    ],
+    "free_text": "急ぎです！ 金曜朝イチ必着で / SUSが無ければ連絡ください",
+    "unreadable": []
+  },
+  "script": [
+    { "tool": "lookup_customer", "args": { "fax_or_name": "06-6728-9902" } },
+    { "thought": "六ボル = 六角ボルト; M10-30 means M10×30. Quantity has no unit — the sales unit is 箱.", "tool": "search_products", "args": { "query": "六ボル M10-30" } },
+    { "tool": "search_products", "args": { "query": "SUS六角ボルト M10×40" } },
+    { "tool": "search_products", "args": { "query": "ワッシャー M10" } },
+    { "tool": "search_products", "args": { "query": "ステンナット M10" } },
+    { "tool": "check_stock", "args": { "sku": "YB-1030", "qty": 5 } },
+    { "tool": "check_stock", "args": { "sku": "SB-1040", "qty": 3 } },
+    { "thought": "SB-1040 is out of stock. The customer wrote 'contact us if no SUS', so look for a stainless substitute and ask.", "tool": "propose_substitute", "args": { "sku": "SB-1040", "qty": 3 } },
+    { "tool": "check_stock", "args": { "sku": "SN-10", "qty": 2 } },
+    { "thought": "'ワッシャー M10' fits both flat and spring washers — ambiguous; flag for the clerk and ask the customer. Quantity 4 was struck out and rewritten as 6.", "tool": "check_stock", "args": { "sku": "WF-10", "qty": 6 } }
+  ],
+  "final": {
+    "customer_id": "C003",
+    "due_date": "2026-10-16",
+    "lines": [
+      { "line_no": 1, "raw_text": "六ボル M10-30 5", "sku": "YB-1030", "qty": 5, "status": "confirmed", "confidence": 0.9, "note_ja": "六ボル＝六角ボルト。単位記載なし→箱で計上", "note_en": "\"Roku-boru\" = hex bolt. No unit written → booked in boxes" },
+      { "line_no": 2, "raw_text": "SUS六角ボルト M10×40 3箱", "sku": "SB-1045", "qty": 3, "status": "substitute", "confidence": 0.8, "original_sku": "SB-1040", "note_ja": "M10×40は在庫切れ。同材質SUS304のM10×45(+5mm)を提案", "note_en": "M10x40 is out of stock. Proposing same-material SUS304 M10x45 (+5mm)" },
+      { "line_no": 3, "raw_text": "ワッシャー M10 4→6", "sku": "WF-10", "qty": 6, "status": "needs_check", "confidence": 0.55, "alternatives": ["WS-10"], "note_ja": "平/スプリングの区別なし。数量4を二重線で訂正→6", "note_en": "Flat or spring washer not specified. Qty 4 struck out and corrected to 6" },
+      { "line_no": 4, "raw_text": "ステンナット M10 2", "sku": "SN-10", "qty": 2, "status": "confirmed", "confidence": 0.92, "note_ja": "ステン＝ステンレス", "note_en": "\"Sten\" = stainless" }
+    ],
+    "reply_ja": "いつも大変お世話になっております。大和金物でございます。\n本日はご注文をいただき、誠にありがとうございます。下記の通り承りました。\n\n【代替品のご相談】\nご注文の「ステンレス六角ボルト M10×40」は、あいにく現在在庫を切らしております。同じSUS304製の「ステンレス六角ボルト M10×45」(長さ+5mm)でしたら3箱すぐにご用意できますが、こちらでよろしいでしょうか。\n\n【ご確認のお願い】\n「ワッシャー M10」につきまして、平ワッシャーとスプリングワッシャーのどちらをご希望かお知らせいただけますでしょうか。数量は訂正後の6箱で承っております。\n\nご返信をいただけ次第、10月16日(金)朝着にて手配いたします。\nお急ぎのところお手数をおかけいたしますが、何卒よろしくお願い申し上げます。",
+    "reply_en": "Thank you as always for your business. This is Yamato Kanamono.\nThank you very much for today's order. We have accepted it as listed below.\n\n[Substitute proposal]\nUnfortunately the stainless hex bolt M10x40 you ordered is currently out of stock. We can supply 3 boxes of the same SUS304 stainless hex bolt in M10x45 (5mm longer) right away — would that be acceptable?\n\n[Request for confirmation]\nFor the \"washer M10\", could you let us know whether you need flat washers or spring washers? We have noted the corrected quantity of 6 boxes.\n\nAs soon as we hear back, we will arrange delivery for Friday morning, October 16.\nWe apologise for the trouble when you are in a hurry, and thank you for your understanding.",
+    "summary_en": "Urgent Friday order from Kawachi Seisakusho: 2 lines confirmed, stainless M10x40 out of stock (M10x45 proposed), washer type unclear."
+  }
+}
