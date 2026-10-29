@@ -1,6 +1,6 @@
 # Devpost submission draft: FAX to Flow (Nebius x NVIDIA Global AI Hackathon)
 
-Track: **Best Apps & Agents**. Replace `<DEMO_URL>`, `<REPO_URL>`, `<VIDEO_URL>`.
+Track: **Best Apps & Agents**. Replace `<DEMO_URL>`, https://github.com/KEIOKUTANI/fax-to-flow, `<VIDEO_URL>`.
 
 ---
 
@@ -13,7 +13,7 @@ An NVIDIA Nemotron agent that turns the hand-written FAX orders Japanese wholesa
 ## Links
 - Demo: `<DEMO_URL>` (pick a sample FAX and press Run, or upload your own)
 - Video (≤ 3 min): `<VIDEO_URL>`
-- Code: `<REPO_URL>`
+- Code: https://github.com/KEIOKUTANI/fax-to-flow
 
 ## Inspiration
 I help small businesses in Japan adopt AI. At many wholesalers, the day still starts at the FAX machine: hand-filled order sheets with shorthand like 「六ボル M10-30」, crossed-out quantities, and notes like 「いつもの分、今回は倍で」 ("the usual, doubled this time"). A clerk retypes each sheet, checks stock, calls about anything unclear and writes a polite reply FAX. That's about 5 minutes per sheet, every sheet, every day. Generic OCR doesn't help much: the hard part isn't reading the characters, it's knowing what the customer meant.
