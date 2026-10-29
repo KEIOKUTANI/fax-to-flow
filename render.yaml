@@ -15,5 +15,3 @@ services:
         value: https://api.tokenfactory.nebius.com/v1
       - key: LLM_MODEL
         value: nvidia/nemotron-3-super-120b-a12b
-      - key: VISION_MODEL
-        value: Qwen/Qwen2-VL-72B-Instruct
